@@ -31,7 +31,7 @@ You'll also need an **AI provider API key** (Anthropic, OpenAI, Groq, etc.) — 
 Run this from the **Proxmox host shell** (not inside a container):
 
 ```bash
-bash -c "$(wget -qLO - https://raw.githubusercontent.com/kellandamm/openclaw-lab/scripts/install.sh)"
+bash -c "$(curl -fsSL - https://raw.githubusercontent.com/kellandamm/openclaw-lab/main/scripts/install.sh)"
 ```
 
 The script will prompt you for:
@@ -47,7 +47,7 @@ Everything else is automatic (~3–5 minutes).
 If you already have a Debian 12/13 container, run the inner setup script directly inside it:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/kellandamm/openclaw-lab/scripts/setup-inside-ct.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/kellandamm/openclaw-lab/main/scripts/setup-inside-ct.sh)
 ```
 
 ---
