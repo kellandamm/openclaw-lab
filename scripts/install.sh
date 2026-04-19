@@ -123,7 +123,7 @@ sleep 5  # give systemd a moment
 # ── Inject Setup Script ──────────────────────────────────────
 header "Installing OpenClaw inside container"
 
-SETUP_SCRIPT_URL="https://raw.githubusercontent.com/kellandamm/openclaw-lab/main/scripts/setup-inside-ct.sh)"
+SETUP_SCRIPT_URL="https://raw.githubusercontent.com/kellandamm/openclaw-lab/main/scripts/setup-inside-ct.sh"
 
 # If running locally, push the sibling script directly
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

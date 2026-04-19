@@ -31,7 +31,7 @@ You'll also need an **AI provider API key** (Anthropic, OpenAI, Groq, etc.) — 
 Run this from the **Proxmox host shell** (not inside a container):
 
 ```bash
-bash -c "$(curl -fsSL - https://raw.githubusercontent.com/kellandamm/openclaw-lab/main/scripts/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/kellandamm/openclaw-lab/main/scripts/install.sh)"
 ```
 
 The script will prompt you for:
