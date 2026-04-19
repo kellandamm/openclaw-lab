@@ -55,6 +55,16 @@ read -rsp "  Root password              : "         CT_PASS;   echo ""
 [[ -n "$CT_PASS" ]] || error "Password cannot be empty."
 
 echo ""
+echo "  Alert channel (optional — for watchdog notifications):"
+read -rp "  Make.com webhook URL  [skip]: "  ALERT_WEBHOOK; ALERT_WEBHOOK=${ALERT_WEBHOOK:-}
+if [[ -z "$ALERT_WEBHOOK" ]]; then
+  read -rp "  Telegram bot token    [skip]: "  ALERT_TG_TOKEN; ALERT_TG_TOKEN=${ALERT_TG_TOKEN:-}
+  if [[ -n "$ALERT_TG_TOKEN" ]]; then
+    read -rp "  Telegram chat ID             : "  ALERT_TG_CHAT
+  fi
+fi
+
+echo ""
 
 # ── Template ─────────────────────────────────────────────────
 header "Checking Debian 13 template"
@@ -113,7 +123,7 @@ sleep 5  # give systemd a moment
 # ── Inject Setup Script ──────────────────────────────────────
 header "Installing OpenClaw inside container"
 
-SETUP_SCRIPT_URL="https://raw.githubusercontent.com/kellandamm/openclaw-lab/scripts/setup-inside-ct.sh"
+SETUP_SCRIPT_URL="https://raw.githubusercontent.com/kellandamm/openclaw-lab/scripts/setup-inside-ct.sh)"
 
 # If running locally, push the sibling script directly
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -129,7 +139,12 @@ else
 fi
 
 info "Running setup (this takes ~3–5 minutes)..."
-pct exec "$VMID" -- bash /root/setup-inside-ct.sh
+
+INNER_ARGS=""
+[[ -n "${ALERT_WEBHOOK:-}" ]]   && INNER_ARGS="--alert-webhook '${ALERT_WEBHOOK}'"
+[[ -n "${ALERT_TG_TOKEN:-}" ]]  && INNER_ARGS="--alert-telegram '${ALERT_TG_TOKEN}' '${ALERT_TG_CHAT}'"
+
+pct exec "$VMID" -- bash -c "/root/setup-inside-ct.sh ${INNER_ARGS}"
 
 # ── Done ─────────────────────────────────────────────────────
 header "Installation Complete"
