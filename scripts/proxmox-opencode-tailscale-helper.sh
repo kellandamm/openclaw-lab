@@ -105,7 +105,12 @@ pct_exec() {
 }
 
 generate_password() {
-  tr -dc 'A-Za-z0-9' </dev/urandom | head -c 20
+  local password
+  password=$(tr -dc 'A-Za-z0-9' </dev/urandom | fold -w 32 | head -n 1 || true)
+  if [[ -z "${password:-}" ]]; then
+    password=$(date +%s | sha256sum | cut -c1-20)
+  fi
+  printf '%s' "$password"
 }
 
 collect_config() {
